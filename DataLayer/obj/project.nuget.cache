@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "OVNjlNl3VUdiIlveoZtmGDcbbWqg/fjg9e/Xl65adfIzWeNHQG6/rWNg06ERsKGbcfamcqlky11jPsVbS7UNQQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mfhernandezl\\Documents\\GitRepos\\CRUD\\CRUD\\DataLayer\\DataLayer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mfhernandezl\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
+    "C:\\Users\\mfhernandezl\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\mfhernandezl\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

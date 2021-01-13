@@ -1,0 +1,17 @@
+C:\Users\mfhernandezl\source\repos\CRUD\DataLayer\bin\Debug\netstandard2.0\DataLayer.deps.json
+C:\Users\mfhernandezl\source\repos\CRUD\DataLayer\bin\Debug\netstandard2.0\DataLayer.dll
+C:\Users\mfhernandezl\source\repos\CRUD\DataLayer\bin\Debug\netstandard2.0\DataLayer.pdb
+C:\Users\mfhernandezl\source\repos\CRUD\DataLayer\obj\Debug\netstandard2.0\DataLayer.csprojAssemblyReference.cache
+C:\Users\mfhernandezl\source\repos\CRUD\DataLayer\obj\Debug\netstandard2.0\DataLayer.AssemblyInfoInputs.cache
+C:\Users\mfhernandezl\source\repos\CRUD\DataLayer\obj\Debug\netstandard2.0\DataLayer.AssemblyInfo.cs
+C:\Users\mfhernandezl\source\repos\CRUD\DataLayer\obj\Debug\netstandard2.0\DataLayer.csproj.CoreCompileInputs.cache
+C:\Users\mfhernandezl\source\repos\CRUD\DataLayer\obj\Debug\netstandard2.0\DataLayer.dll
+C:\Users\mfhernandezl\source\repos\CRUD\DataLayer\obj\Debug\netstandard2.0\DataLayer.pdb
+C:\Users\mfhernandezl\Documents\GitRepos\CRUD\CRUD\DataLayer\obj\Debug\netstandard2.0\DataLayer.AssemblyInfoInputs.cache
+C:\Users\mfhernandezl\Documents\GitRepos\CRUD\CRUD\DataLayer\obj\Debug\netstandard2.0\DataLayer.AssemblyInfo.cs
+C:\Users\mfhernandezl\Documents\GitRepos\CRUD\CRUD\DataLayer\obj\Debug\netstandard2.0\DataLayer.csproj.CoreCompileInputs.cache
+C:\Users\mfhernandezl\Documents\GitRepos\CRUD\CRUD\DataLayer\obj\Debug\netstandard2.0\DataLayer.dll
+C:\Users\mfhernandezl\Documents\GitRepos\CRUD\CRUD\DataLayer\obj\Debug\netstandard2.0\DataLayer.pdb
+C:\Users\mfhernandezl\Documents\GitRepos\CRUD\CRUD\DataLayer\bin\Debug\netstandard2.0\DataLayer.deps.json
+C:\Users\mfhernandezl\Documents\GitRepos\CRUD\CRUD\DataLayer\bin\Debug\netstandard2.0\DataLayer.dll
+C:\Users\mfhernandezl\Documents\GitRepos\CRUD\CRUD\DataLayer\bin\Debug\netstandard2.0\DataLayer.pdb

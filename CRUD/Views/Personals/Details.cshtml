@@ -1,0 +1,68 @@
+﻿@model CRUD.Models.Personal
+
+@{
+    ViewBag.Title = "Detalles";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalles</title>
+</head>
+<body>
+    <div>
+        <h4>Personal</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ApePaterno)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ApePaterno)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ApeMaterno)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ApeMaterno)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Edad)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Edad)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsActive)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.ID_personal }) |
+        @Html.ActionLink("Volver a información", "Index")
+    </p>
+</body>
+</html>

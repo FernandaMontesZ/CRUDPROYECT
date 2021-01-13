@@ -1,0 +1,116 @@
+﻿@model CRUD.Models.Personal
+
+@{
+    ViewBag.Title = "Crear";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<!DOCTYPE html>
+
+<html>
+<partial name="_CreateLayer"></partial>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Crear</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Personal</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @id = "PerNombre", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ApePaterno, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ApePaterno, new { htmlAttributes = new { @id = "PerApePa", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ApePaterno, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ApeMaterno, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ApeMaterno, new { htmlAttributes = new { @id = "PerApeMa", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ApeMaterno, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Edad, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Edad, new { htmlAttributes = new { @id = "PerEdad", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Edad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @id = "PerIsActive" } })
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="Btn_Create" onclick="CreateData();"  type="button" value="Crear" class="btn btn-default" />
+            </div>
+        </div>
+
+
+        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        <script src="~/Scripts/jquery-3.4.1.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <script src="~/Scripts/Empleados.js"></script>
+        <script>
+            function CreateData() {
+                //console.log("entrando");
+                //$('#Btn_Create').click(function () {
+                console.log("en el boton");
+                var psl = {
+                    Nombre: $("#PerNombre").val(),
+                    ApePaterno: $('#PerApePa').val(),
+                    ApeMaterno: $('#PerApeMa').val(),
+                    Edad: $('#PerEdad').val(),
+                    IsActive: $('#PerIsActive').val()
+                };
+                $.ajax({
+                    type: "POST",
+                    url: '/Personals/Create',
+                    data: {personal: psl},
+                    dataType: "JSON",
+                    success: function () {
+                        console.log("ok");
+                    },
+                    error: function () {
+                        console.log("error");
+                        //alert(res);
+                    }
+                });
+                //});
+            }
+        </script>
+    </div>
+    }
+     <div>
+        @Html.ActionLink("Volver a información", "Index")
+    </div>
+</body>
+</html>
+
+
