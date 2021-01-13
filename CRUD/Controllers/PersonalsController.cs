@@ -13,7 +13,7 @@ namespace CRUD.Controllers
     public class PersonalsController : Controller
     {
         private EmpleadosEntities db = new EmpleadosEntities();
-        private EmpleadosBD emDB = new EmpleadosBD();
+        private consultasSQL emDB = new consultasSQL();
 
         // GET: Personals
         public ActionResult Index()
@@ -27,53 +27,48 @@ namespace CRUD.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Personals/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+       // GET: Personals/Create
+        //public static ActionResult Create()
+        //{
+        //}
 
         // POST: Personals/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Personal personal)
-        {
-            if (db.Personal != null)
-            {
-                
-                //db.SaveChanges();
-            }
 
-            return View(emDB.create(personal));
+        public JsonResult CreateAjax(string Nombre)
+        {
+            //var result = emDB.create(psl);
+            var result = Nombre;
+            return Json(result,JsonRequestBehavior.AllowGet);
         }
 
         //Obtiene empleado por id 
-        public ActionResult Edit(int? ID_personal )
+        public ActionResult EditAjax(int? ID_personal )
 
         {
-            Personal personal = new Personal();
+            List<Personal> personal = new List<Personal>();
         
             if (ID_personal == null)
             {
                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
                
-            personal = emDB.RealAll().Find(x => x.ID_personal.Equals(ID_personal));
+            personal = emDB.Details((int)ID_personal);
             if (personal == null)
                 {
                     return HttpNotFound();
                 }
             return Json(personal, JsonRequestBehavior.AllowGet);
-            //return View("Edit", personal);
         }
 
         [HttpPost]
-        public ActionResult Edit(Personal personal)
+        public ActionResult EditAjax(Personal personal)
         {
-           emDB.Update(personal);
-           return View(personal);
+           
+           return Json(emDB.Update(personal),JsonRequestBehavior.AllowGet);
         }
         public JsonResult DeleteAjax(int ID_personal)
         {
@@ -112,29 +107,29 @@ namespace CRUD.Controllers
         //}
 
         // GET: Personals/Delete/5
-        public ActionResult Delete(int? ID_personal)
-        {
-            if (ID_personal == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Personal Empleado = emDB.RealAll().Find(x => x.ID_personal.Equals(ID_personal));
-            if (Empleado == null)
-            {
-                return HttpNotFound();
-            }
-            return View(Empleado);
-        }
+        //public ActionResult Delete(int? ID_personal)
+        //{
+        //    if (ID_personal == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Personal Empleado = emDB.RealAll().Find(x => x.ID_personal.Equals(ID_personal));
+        //    if (Empleado == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(Empleado);
+        //}
 
         // POST: Personals/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int ID_personal)
-        {
-            Personal Empleado = emDB.RealAll().Find(x => x.ID_personal.Equals(ID_personal));
-            emDB.Delete(ID_personal);
-            return RedirectToAction("Index");
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int ID_personal)
+        //{
+        //    Personal Empleado = emDB.RealAll().Find(x => x.ID_personal.Equals(ID_personal));
+        //    emDB.Delete(ID_personal);
+        //    return RedirectToAction("Index");
+        //}
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -145,18 +140,18 @@ namespace CRUD.Controllers
         }
 
         // GET: Personals/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Personal personal = db.Personal.Find(id);
-            if (personal == null)
-            {
-                return HttpNotFound();
-            }
-            return View(personal);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Personal personal = db.Personal.Find(id);
+        //    if (personal == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(personal);
+        //}
     }
 }

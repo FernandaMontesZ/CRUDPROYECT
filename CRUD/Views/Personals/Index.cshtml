@@ -12,84 +12,96 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Información</title>
+    <title>Administracion de personal</title>
 </head>
 <body>
-    <p>
-        @Html.ActionLink("Crear Nuevo", "Create")
-    </p>
-    <div class="form-group">
-        @*boton actualizar*@
-        <div class="col-md-offset-2 col-md-10">
-            <input id="btn_Read" onclick="ReadData();" type="button" value="Actualizar" class="btn btn-default" />
-        </div>
+    <div class="container">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalCreate" onclick="clearTextBox();">Crear personal</button><br /><br />
+        <table class="table table-bordered table-hover">
+            <thead>
 
-    </div>
-    <table id="tblPersonal" class="table">
-        <thead>
-
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nombre)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ApePaterno)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ApeMaterno)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Edad)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsActive)
-                </th>
-                <th></th>
-            </tr>
-
-        </thead>
-
-        <tbody class="tbody">
-        </tbody>
-        @*@foreach (var item in Model)
-            {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ApePaterno)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ApeMaterno)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Edad)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Editar", "Edit", new { id = item.ID_personal }) |
-                        @Html.ActionLink("Detalles", "Details", new { id = item.ID_personal }) |
-                        @Html.ActionLink("Eliminar", "Delete", new { id = item.ID_personal })
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ApePaterno)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ApeMaterno)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Edad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsActive)
+                    </th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            }*@
 
-    </table>
+            </thead>
+            <tbody class="tbody">
+
+            </tbody>
+        </table>
+    </div>
+    @*modal crear / editar*@
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button> @*boton para cerrar*@
+                    <h4 class="modal-title" id="myModalLabel">CREAR PERSONAL</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        @*<div class="form-group">
+            <label for="ID_personal">ID</label>
+            <input type="text" class="form-control" id="ID_personal" disabled="disabled" />
+        </div>*@
+                        <div class="form-group">
+                            <label for="Nombre">Nombre</label>
+                            <input type="text" class="form-control" id="PerNombre" />
+                        </div>
+                        <div class="form-group">
+                            <label for="ApePaterno">Apellido Paterno</label>
+                            <input type="text" class="form-control" id="PerApePa" />
+                        </div>
+                        <div class="form-group">
+                            <label for="ApeMaterno">Apellido Materno</label>
+                            <input type="text" class="form-control" id="PerApeMa" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Edad">Edad</label>
+                            <input type="text" class="form-control" id="PerEdad" />
+                        </div>
+                        <div class="form-group">
+                            <label for="IsActive">IsActive</label>
+                            <div class="checkbox">
+                                <select id="PerIsActive" name="IsActive" size="1">
+                                    <option value="null">No Set</option>
+                                    <option value="True">Activo</option>
+                                    <option value="False">No Activo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="Btn_Create" onclick="return CreateData();">Crear</button>
+                    <button type="button" class="btn btn-primary" id="btn_updateModal" style="display:none;" onclick=" return Update();">Editar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <script src="~/Scripts/Empleados.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            ReadData();
-        }); 
-    </script>
 
 </body>
 </html>

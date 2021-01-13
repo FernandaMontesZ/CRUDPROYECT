@@ -78,32 +78,7 @@
         <link href="~/Content/bootstrap.css" rel="stylesheet" />
         <script src="~/Scripts/Empleados.js"></script>
         <script>
-            function CreateData() {
-                //console.log("entrando");
-                //$('#Btn_Create').click(function () {
-                console.log("en el boton");
-                var psl = {
-                    Nombre: $("#PerNombre").val(),
-                    ApePaterno: $('#PerApePa').val(),
-                    ApeMaterno: $('#PerApeMa').val(),
-                    Edad: $('#PerEdad').val(),
-                    IsActive: $('#PerIsActive').val()
-                };
-                $.ajax({
-                    type: "POST",
-                    url: '/Personals/Create',
-                    data: {personal: psl},
-                    dataType: "JSON",
-                    success: function () {
-                        console.log("ok");
-                    },
-                    error: function () {
-                        console.log("error");
-                        //alert(res);
-                    }
-                });
-                //});
-            }
+            
         </script>
     </div>
     }

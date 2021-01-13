@@ -1,6 +1,8 @@
 ﻿var objID;
-var Nombre;
-var apeP;
+
+$(document).ready(function () {
+    ReadData();
+}); 
  
 function ReadData() {
     $.ajax({
@@ -33,15 +35,20 @@ function getID(objID) {
     var respuesta;
     console.log("en getID");
     $.ajax({
-        url: "/Personals/Edit/"+objID,
+        url: "/Personals/EditAjax/"+objID,
         type: "GET",
         data: { ID_personal: objID},
         success: function (result) {
-            $("#PerNombre").val(result.Nombre);
+            console.log(result);
+            $('#PerNombre').val(result.Nombre);
             $('#PerApePa').val(result.ApePaterno);
             $('#PerApeMa').val(result.ApePaterno);
             $('#PerEdad').val(result.Edad);
             $('#PerIsActive').val(result.IsActive);
+            $('#myModalLabel').replaceWith("EDITAR PERSONAL");
+            $('#myModal').modal('show');
+            $('#btn_updateModal').show();
+            $('#Btn_Create').hide();
             console.log(result);
         },
 
@@ -53,35 +60,8 @@ function getID(objID) {
     return false;
 }
 
-//function CreateData() {
-//    //console.log("entrando");
-//    //$('#Btn_Create').click(function () {
-//        console.log("en el boton");
-//            var psl = {
-//                Nombre: $("#PerNombre").val(),
-//                ApePaterno: $('#PerApePa').val(),
-//                ApeMaterno: $('#PerApeMa').val(),
-//                Edad: $('#PerEdad').val(),
-//                IsActive: $('#PerIsActive').val()
-//            };
-//            $.ajax({
-//                type: "POST",
-//                url: '/Create',
-//                data: psl,
-//                dataType: "JSON",
-//                success: function () {
-//                    console.log("ok");
-//                },
-//                error: function () {
-//                    console.log("error");
-//                    //alert(res);
-//                }
-//            });
-//    //});
-//}
-
 function Update() {
-    var respuesta;
+    $('#myModal').modal('hide');
     var psl = {
         Nombre: $("#PerNombre").val(),
         ApePaterno: $('#PerApePa').val(),
@@ -90,60 +70,80 @@ function Update() {
         IsActive: $('#PerIsActive').val()
     };
     $.ajax({
-        url: "/Personals/Edit",
-        data: psl,
+        url: "/Personals/EditAjax",
+        data: JSON.stringify(psl),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (data) {
             console.log("ok");
-            respuesta = data;
+            loadData();
+            $('#myModal').modal('hide');
+            $('#ID_personal').val("");
+            $('#PerNombre').val("");
+            $('#PerApePa').val("");
+            $('#PerApeMa').val("");
+            $('#PerEdad').val("");
+            $('#IsActive').val("null");
         },
         error: function (errormessage) {
             console.log("error vista");
         }
     });
-    return respuesta;
-}
-
-function DeleteConfirmar() {
-    $(document).ready(function () {
-        $('#btn_delete').click(function () {
-            var res = confirm("¿Desea eliminar al personal?");
-            if (res) {
-                $.ajax({
-                    url: "/Personals/DeleteConfirmed/",
-                    type: "POST",
-                    contentType: "application/json;charset=UTF-8",
-                    dataType: "json",
-                    success: function (result) {
-                        console.log("ok");
-                    },
-                    error: function () {
-                        console.log("error");
-                    }
-                });
-            }
-        });
-    });
 }
 
 function Delete(objID) {
-    $(document).ready(function () {
-        $('#btnEdit').click(function () {
-            $.ajax({
-                url: "/Personals/Delete/" + objID,
-                type: "POST",
-                contentType: "application/json;charset=UTF-8",
-                dataType: "json",
-                success: function (result) {
-                    console.log("Delete ok")
-                },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                }
-            });
+    var ans = confirm("Are you sure you want to delete this Record?");
+    if (ans) {
+        $.ajax({
+            url: "/Personals/DeleteAjax/" + objID,
+            type: "POST",
+            data: { ID_personal: objID },
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                loadData();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
         });
-    });
-
+    }  
 }
+
+function CreateData() {
+    var Nombre = {
+        //ID_personal: 0,
+        Nombre: $("#PerNombre").val()
+        //ApePaterno: $('#PerApePa').val(),
+        //ApeMaterno: $('#PerApeMa').val(),
+        //Edad: $('#PerEdad').val(),
+        //IsActive: $('#PerIsActive').val()
+    };
+    console.log(psl);
+    $.ajax({
+        url:"/Personals/CreateAjax",
+        data: psl,
+        dataType: "JSON",
+        type: "POST", 
+        success: function (result) {
+            console.log("ok");
+            ReadData();
+            $('#myModal').modal('hide'); 
+        },
+        error: function () {
+            console.log("error");
+        }
+    });
+}
+
+function clearTextBox() {
+    $('#ID_personal').val("");
+    $('#PerNombre').val("");
+    $('#PerApePa').val("");
+    $('#PerApeMa').val("");
+    $('#PerEdad').val("");
+    $('#IsActive').val("null")
+    $('#btn_update').hide();
+    $('#Btn_Create').show();
+}  
