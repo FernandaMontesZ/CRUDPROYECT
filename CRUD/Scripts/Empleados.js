@@ -1,5 +1,4 @@
 ﻿var objID;
-
 $(document).ready(function () {
     ReadData();
 }); 
@@ -120,10 +119,10 @@ function CreateData() {
         //Edad: $('#PerEdad').val(),
         //IsActive: $('#PerIsActive').val()
     };
-    console.log(psl);
+    console.log(Nombre);
     $.ajax({
         url:"/Personals/CreateAjax",
-        data: psl,
+        data: Nombre,
         dataType: "JSON",
         type: "POST", 
         success: function (result) {

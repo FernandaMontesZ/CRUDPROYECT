@@ -15,7 +15,7 @@ namespace CRUD.Models
         Personal ps = new Personal();
         List<Personal> lsPersonal = new List<Personal>();
 
-        public int create(Personal personal)
+        public int Create(Personal personal)
         {
             int i;
             con.Open();

@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="container">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalCreate" onclick="clearTextBox();">Crear personal</button><br /><br />
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Crear personal</button><br /><br />
         <table class="table table-bordered table-hover">
             <thead>
 
@@ -42,11 +42,10 @@
 
             </thead>
             <tbody class="tbody">
-
             </tbody>
         </table>
     </div>
-    @*modal crear / editar*@
+    @*vista modal crear / editar*@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -56,10 +55,6 @@
                 </div>
                 <div class="modal-body">
                     <form>
-                        @*<div class="form-group">
-            <label for="ID_personal">ID</label>
-            <input type="text" class="form-control" id="ID_personal" disabled="disabled" />
-        </div>*@
                         <div class="form-group">
                             <label for="Nombre">Nombre</label>
                             <input type="text" class="form-control" id="PerNombre" />
@@ -89,7 +84,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="Btn_Create" onclick="return CreateData();">Crear</button>
+                    <button type="button" class="btn btn-primary" id="Btn_CreateModal" onclick="return CreateData();">Crear</button>
                     <button type="button" class="btn btn-primary" id="btn_updateModal" style="display:none;" onclick=" return Update();">Editar</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>
@@ -101,7 +96,158 @@
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <script src="~/Scripts/Empleados.js"></script>
+    <script>
+        var objID;
+        $(document).ready(function () {
+            ReadData();
+        });
+
+        function ReadData() {
+            $.ajax({
+                type: "GET",
+                url: '/Personals/ReadListaPersonal',
+                success: function (result) {
+                    var html = '';
+                    var objID = 0;
+                    $.each(result, function (key, item) {
+                        objID = item.ID_personal;
+                        html += '<tr>';
+                        html += '<td>' + item.Nombre + '</td>';
+                        html += '<td>' + item.ApePaterno + '</td>';
+                        html += '<td>' + item.ApeMaterno + '</td>';
+                        html += '<td>' + item.Edad + '</td>';
+                        html += '<td>' + item.IsActive + '</td>';
+                        html += '<td> <div class="form-group"> <div class="col-md-offset-2 col-md-10"> <input id="btn_update" onclick= "return getID(' + objID + ');" type="button" value="Editar" class="btn btn-default" /> </div> </div> </td>';
+                        html += '<td> <div class="form-group"> <div class="col-md-offset-2 col-md-10"> <input id="btnDelete" onclick= "return Delete(' + objID + ');" type="button" value="Eliminar" class="btn btn-default" /> </div> </div> </td>';
+                        html += '</tr>';
+                    });
+                    $('.tbody').html(html);
+                },
+                error: function () {
+                    console.log("error");
+                }
+            });
+        }
+
+        function CreateData() {
+            //var Nombre = "Hola";
+            var Nombre = {
+                Nombre: $("#PerNombre").val(),
+                ApePaterno: $('#PerApePa').val(),
+                ApeMaterno: $('#PerApeMa').val(),
+                Edad: $('#PerEdad').val(),
+                IsActive: $('#PerIsActive').val()
+            };
+            console.log(Nombre);
+
+            $.ajax({
+                dataType: "JSON",
+                type: "POST",
+                url: '/Personals/Create',
+                data: { NombreAc : Nombre },
+                success: function (result) {
+                    console.log("ok");
+                    ReadData();
+                    $('#myModal').modal('hide');
+                },
+                error: function () {
+                    console.log("error");
+                }
+            });
+        }
+
+        function getID(objID) {
+            var respuesta;
+            console.log("en getID");
+            $.ajax({
+                url: "/Personals/EditAjax/" + objID,
+                type: "GET",
+                data: { ID_personal: objID },
+                success: function (result) {
+                    console.log(result);
+                    $('#PerNombre').val(result.Nombre);
+                    $('#PerApePa').val(result.ApePaterno);
+                    $('#PerApeMa').val(result.ApePaterno);
+                    $('#PerEdad').val(result.Edad);
+                    $('#PerIsActive').val(result.IsActive);
+                    $('#myModalLabel').replaceWith("EDITAR PERSONAL");
+                    $('#myModal').modal('show');
+                    $('#btn_updateModal').show();
+                    $('#Btn_CreateModal').hide();
+                    console.log(result);
+                },
+
+                error: function (errormessage) {
+                    console.log("Error getid")
+                }
+
+            });
+            return false;
+        }
+
+        function Update() {
+            $('#myModal').modal('hide');
+            var psl = {
+                Nombre: $("#PerNombre").val(),
+                ApePaterno: $('#PerApePa').val(),
+                ApeMaterno: $('#PerApeMa').val(),
+                Edad: $('#PerEdad').val(),
+                IsActive: $('#PerIsActive').val()
+            };
+            $.ajax({
+                url: "/Personals/EditAjax",
+                data: JSON.stringify(psl),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    console.log("ok");
+                    loadData();
+                    $('#myModal').modal('hide');
+                    $('#ID_personal').val("");
+                    $('#PerNombre').val("");
+                    $('#PerApePa').val("");
+                    $('#PerApeMa').val("");
+                    $('#PerEdad').val("");
+                    $('#IsActive').val("null");
+                },
+                error: function (errormessage) {
+                    console.log("error vista");
+                }
+            });
+        }
+
+        function Delete(objID) {
+            var ans = confirm("¿Estas seguro de querer eliminar al empleado?");
+            if (ans) {
+                $.ajax({
+                    url: "/Personals/DeleteAjax/" + objID,
+                    type: "POST",
+                    data: { ID_personal: objID },
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (result) {
+                        console.log(result);
+                        loadData();
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            }
+        }
+
+        function clearTextBox() {
+            $('#ID_personal').val("");
+            $('#PerNombre').val("");
+            $('#PerApePa').val("");
+            $('#PerApeMa').val("");
+            $('#PerEdad').val("");
+            $('#IsActive').val("null");
+            $('#btn_updateModal').hide();
+            $('#Btn_CreateModal').show();
+        }
+    </script>
 
 </body>
 </html>

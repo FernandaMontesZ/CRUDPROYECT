@@ -27,7 +27,7 @@ namespace CRUD.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-       // GET: Personals/Create
+        // GET: Personals/Create
         //public static ActionResult Create()
         //{
         //}
@@ -35,13 +35,13 @@ namespace CRUD.Controllers
         // POST: Personals/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public JsonResult CreateAjax(string Nombre)
+        public JsonResult Create(string NombreAc)
         {
-            //var result = emDB.create(psl);
-            var result = Nombre;
+            var result = NombreAc;
+            // var result = emDB.Create(Nombre);
             return Json(result,JsonRequestBehavior.AllowGet);
         }
 
@@ -65,12 +65,13 @@ namespace CRUD.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult EditAjax(Personal personal)
         {
            
            return Json(emDB.Update(personal),JsonRequestBehavior.AllowGet);
         }
-        public JsonResult DeleteAjax(int ID_personal)
+        public ActionResult DeleteAjax(int ID_personal)
         {
             return Json(emDB.Delete(ID_personal), JsonRequestBehavior.AllowGet);
         }
