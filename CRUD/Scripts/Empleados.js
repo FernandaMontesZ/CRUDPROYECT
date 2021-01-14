@@ -111,27 +111,17 @@ function Delete(objID) {
 }
 
 function CreateData() {
-    var Nombre = {
-        //ID_personal: 0,
-        Nombre: $("#PerNombre").val()
-        //ApePaterno: $('#PerApePa').val(),
-        //ApeMaterno: $('#PerApeMa').val(),
-        //Edad: $('#PerEdad').val(),
-        //IsActive: $('#PerIsActive').val()
-    };
-    console.log(Nombre);
+    var formulario = $("formulario");
     $.ajax({
-        url:"/Personals/CreateAjax",
-        data: Nombre,
-        dataType: "JSON",
-        type: "POST", 
-        success: function (result) {
-            console.log("ok");
-            ReadData();
-            $('#myModal').modal('hide'); 
-        },
-        error: function () {
-            console.log("error");
+        url: "/Personals/Create",
+        data: fomulario.serialize(),
+        method: "POST",
+        success: function (resultado) {
+            if (resultado.result) {
+                console.log("OK")
+                ReadData();
+                $('#myModal').modal('hide');
+            }
         }
     });
 }

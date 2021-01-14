@@ -18,12 +18,12 @@ namespace CRUD.Controllers
         // GET: Personals
         public ActionResult Index()
         {
-            return View();
+            return View(emDB.ReadAll().ToList());
         }
         //GET: envia lista de todo el personal
         public JsonResult ReadListaPersonal()
         {
-            var result = emDB.RealAll();
+            var result = emDB.ReadAll();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -38,15 +38,15 @@ namespace CRUD.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Create(Personal personal)
+        [ActionName("Create")]
+        public ActionResult Create(Personal personal)
         {
-           // var result = NombreAc;
-            var result = emDB.Create(personal);
-            return Json(result,JsonRequestBehavior.AllowGet);
+             //var result = personal;
+           var result = emDB.Create(personal);
+            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
 
-        //Obtiene empleado por id 
-        public ActionResult EditAjax(int? ID_personal )
+        public ActionResult GetInfID(int? ID_personal )
 
         {
             List<Personal> personal = new List<Personal>();
@@ -66,12 +66,12 @@ namespace CRUD.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditAjax(Personal personal)
+        public ActionResult Edit(Personal personal)
         {
            
            return Json(emDB.Update(personal),JsonRequestBehavior.AllowGet);
         }
-        public ActionResult DeleteAjax(int ID_personal)
+        public ActionResult Delete(int ID_personal)
         {
             return Json(emDB.Delete(ID_personal), JsonRequestBehavior.AllowGet);
         }

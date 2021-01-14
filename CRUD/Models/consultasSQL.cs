@@ -15,9 +15,10 @@ namespace CRUD.Models
         Personal ps = new Personal();
         List<Personal> lsPersonal = new List<Personal>();
 
-        public int Create(Personal personal)
+        public bool Create(Personal personal)
         {
-            int i;
+            int res;
+            bool i = false;
             con.Open();
             comm.Connection = con;
             comm.CommandType = System.Data.CommandType.StoredProcedure;
@@ -28,11 +29,15 @@ namespace CRUD.Models
             comm.Parameters.AddWithValue("@ApeMaterno", personal.ApeMaterno);
             comm.Parameters.AddWithValue("@Edad", personal.Edad);
             comm.Parameters.AddWithValue("@IsActive", personal.IsActive);
-            i = comm.ExecuteNonQuery();
+            res = comm.ExecuteNonQuery();
+            if (res == -1)
+            {
+                i = true;
+            }
             con.Close();
             return i;
         }
-        public List<Personal> RealAll()
+        public List<Personal> ReadAll()
         {
             con.Open();
             comm.Connection = con;
