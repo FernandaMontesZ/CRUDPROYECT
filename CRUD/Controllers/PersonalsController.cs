@@ -38,10 +38,10 @@ namespace CRUD.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Create(string NombreAc)
+        public JsonResult Create(Personal personal)
         {
-            var result = NombreAc;
-            // var result = emDB.Create(Nombre);
+           // var result = NombreAc;
+            var result = emDB.Create(personal);
             return Json(result,JsonRequestBehavior.AllowGet);
         }
 

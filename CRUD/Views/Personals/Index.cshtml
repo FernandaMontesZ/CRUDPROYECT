@@ -130,25 +130,26 @@
         }
 
         function CreateData() {
-            //var Nombre = "Hola";
-            var Nombre = {
+            var personal = {
                 Nombre: $("#PerNombre").val(),
                 ApePaterno: $('#PerApePa').val(),
                 ApeMaterno: $('#PerApeMa').val(),
-                Edad: $('#PerEdad').val(),
-                IsActive: $('#PerIsActive').val()
+                Edad: Number( $('#PerEdad').val()),
+                IsActive: Boolean ($('#PerIsActive').val())
             };
-            console.log(Nombre);
-
+            console.log(personal);
             $.ajax({
-                dataType: "JSON",
                 type: "POST",
-                url: '/Personals/Create',
-                data: { NombreAc : Nombre },
-                success: function (result) {
+                url: "/Personals/Create",
+                data: personal,
+                dataType: "json",
+                success: function (resultado) {
                     console.log("ok");
-                    ReadData();
-                    $('#myModal').modal('hide');
+                    if (resultado.result) {
+                        ReadData();
+                        $('#myModal').modal('hide');
+                    }
+                    
                 },
                 error: function () {
                     console.log("error");
@@ -187,7 +188,7 @@
 
         function Update() {
             $('#myModal').modal('hide');
-            var psl = {
+            var personal = {
                 Nombre: $("#PerNombre").val(),
                 ApePaterno: $('#PerApePa').val(),
                 ApeMaterno: $('#PerApeMa').val(),
@@ -196,9 +197,8 @@
             };
             $.ajax({
                 url: "/Personals/EditAjax",
-                data: JSON.stringify(psl),
+                data: JSON.stringify(personal),
                 type: "POST",
-                contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success: function (data) {
                     console.log("ok");
