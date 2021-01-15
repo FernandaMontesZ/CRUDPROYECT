@@ -66,9 +66,10 @@ namespace CRUD.Models
             con.Close();
             return lsPersonal;
         }
-        public int Update(Personal personal)
+        public bool Update(Personal personal)
         {
             int i;
+            bool resp = false;
             con.Open();
             comm.Connection = con;
             comm.CommandType = System.Data.CommandType.StoredProcedure;
@@ -81,12 +82,17 @@ namespace CRUD.Models
             comm.Parameters.AddWithValue("@Edad", personal.Edad);
             comm.Parameters.AddWithValue("@IsActive", personal.IsActive);
             i = comm.ExecuteNonQuery();
+            if (i == -1)
+            {
+                resp = true;
+            }
             con.Close();
-            return i;
+            return resp;
         }
-        public int Delete(int ID_personal)
+        public bool Delete(int ID_personal)
         {
             int i;
+            bool resp = false;
             con.Open();
             comm.Connection = con;
             comm.CommandType = System.Data.CommandType.StoredProcedure;
@@ -94,8 +100,12 @@ namespace CRUD.Models
             comm.Parameters.AddWithValue("@Action", "DELETE");
             comm.Parameters.AddWithValue("@Id_personal", ID_personal);
             i = comm.ExecuteNonQuery();
+            if (i == -1)
+            {
+                resp = true;
+            }
             con.Close();
-            return i;
+            return resp;
         }
 
         public List<Personal> Details(int ID_personal)

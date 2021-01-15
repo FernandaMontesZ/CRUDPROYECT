@@ -21,7 +21,6 @@
     <body>
         <div class="container">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Crear personal</button><br /><br />
-            @*<button type="button" class="btn btn-primary" onclick = "CreateData();">Crear sin modal</button>*@
             <table class="table table-bordered table-hover">
                 <thead>
 
@@ -79,8 +78,8 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">×</button> @*boton para cerrar*@
-                        <h4 class="modal-title" id="myModalLabel">CREAR PERSONAL</h4>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h4 class="modal-title" id="myModalLabelTitle">CREAR PERSONAL</h4>
                     </div>
                     <div class="modal-body">
                         <form>
@@ -127,20 +126,20 @@
         <link href="~/Content/bootstrap.css" rel="stylesheet" />
         <script>
             var objID;
-            $(document).ready(function () {
-                ReadData();
-            });
+            var ID_personal;
+            $(document).ready(function () { ReadData(); });
+
             function addRequestVerificationToken(data) {
                 data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
                 return data;
             };
+
             function ReadData() {
                 $.ajax({
                     type: "GET",
                     url: '/Personals/ReadListaPersonal',
                     success: function (result) {
                         var html = '';
-                        var objID = 0;
                         $.each(result, function (key, item) {
                             objID = item.ID_personal;
                             html += '<tr>';
@@ -149,8 +148,8 @@
                             html += '<td>' + item.ApeMaterno + '</td>';
                             html += '<td>' + item.Edad + '</td>';
                             html += '<td>' + item.IsActive + '</td>';
-                            html += '<td> <div class="form-group"> <div class="col-md-offset-2 col-md-10"> <input id="btn_update" onclick= "return getID(' + objID + ');" type="button" value="Editar" class="btn btn-default" /> </div> </div> </td>';
-                            html += '<td> <div class="form-group"> <div class="col-md-offset-2 col-md-10"> <input id="btnDelete" onclick= "return Delete(' + objID + ');" type="button" value="Eliminar" class="btn btn-default" /> </div> </div> </td>';
+                            html += '<td> <button value="Editar" id="btn_update" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="return getID(' + objID + ');">Editar</button> </td>';
+                            html += '<td> <button value="Eliminar" id="btnDelete" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="return Delete(' + objID + ');">Eliminar</button></td>';
                             html += '</tr>';
                         });
                         $('.tbody').html(html);
@@ -169,17 +168,23 @@
                     Edad: Number($('#PerEdad').val()),
                     IsActive: Boolean($('#PerIsActive').val())
                 };
-                console.log(Personal)
+                // console.log(Personal)
                 $.ajax({
                     type: "POST",
                     url: "/Personals/Create",
                     dataType: "json",
                     data: addRequestVerificationToken({ personal: Personal }),
                     success: function (resultado) {
-                        console.log("ok");
+                        //console.log("ok");
                         if (resultado.result) {
-                            $('#myModal').modal('hide');
                             ReadData();
+                            $('#PerNombre').val("");
+                            $('#PerApePa').val("");
+                            $('#PerApeMa').val("");
+                            $('#PerEdad').val("");
+                            $('#IsActive').val("null");
+                            $('#myModal').modal('hide');
+                            window.location.reload(); 
                         }
 
                     },
@@ -190,24 +195,24 @@
             }
 
             function getID(objID) {
-                var respuesta;
-                console.log("en getID");
+                
                 $.ajax({
-                    url: "/Personals/EditAjax/" + objID,
+                    url: "/Personals/GetInfID/" + objID,
                     type: "GET",
-                    daUrla: { ID_personal: objID },
-                    success: function (result) {
-                        console.log(result);
-                        $('#PerNombre').val(result.Nombre);
-                        $('#PerApePa').val(result.ApePaterno);
-                        $('#PerApeMa').val(result.ApePaterno);
-                        $('#PerEdad').val(result.Edad);
-                        $('#PerIsActive').val(result.IsActive);
-                        $('#myModalLabel').replaceWith("EDITAR PERSONAL");
-                        $('#myModal').modal('show');
+                    data: { ID_personal: objID },
+                    success: function (data) {
+                        $.each(data, function (key, item) {
+                            ID_personal = item.ID_personal;
+                            $('#PerNombre').val(item.Nombre);
+                            $('#PerApePa').val(item.ApePaterno);
+                            $('#PerApeMa').val(item.ApeMaterno);
+                            $('#PerEdad').val(item.Edad);
+                            $('#PerIsActive').val(item.IsActive);
+                        });
+                        $('#myModalLabelTitle').replaceWith("EDITAR PERSONAL");
+                        $('#Mymodal').modal('show');
                         $('#btn_updateModal').show();
                         $('#Btn_CreateModal').hide();
-                        console.log(result);
                     },
 
                     error: function (errormessage) {
@@ -219,48 +224,51 @@
             }
 
             function Update() {
-                $('#myModal').modal('hide');
-                var personal = {
+                var Personal = {
+                    ID_personal: ID_personal,
                     Nombre: $("#PerNombre").val(),
                     ApePaterno: $('#PerApePa').val(),
                     ApeMaterno: $('#PerApeMa').val(),
-                    Edad: $('#PerEdad').val(),
-                    IsActive: $('#PerIsActive').val()
+                    Edad: Number($('#PerEdad').val()),
+                    IsActive: Boolean($('#PerIsActive').val())
                 };
                 $.ajax({
-                    url: "/Personals/EditAjax",
-                    data: JSON.stringify(personal),
+                    url: "/Personals/Edit",
+                    data: addRequestVerificationToken({ personal: Personal }),
                     type: "POST",
                     dataType: "json",
-                    success: function (data) {
-                        console.log("ok");
-                        loadData();
-                        $('#myModal').modal('hide');
-                        $('#ID_personal').val("");
-                        $('#PerNombre').val("");
-                        $('#PerApePa').val("");
-                        $('#PerApeMa').val("");
-                        $('#PerEdad').val("");
-                        $('#IsActive').val("null");
+                    success: function (resultado) {
+                        if (resultado.result) {
+                            ReadData();
+                            $('#myModal').modal('hide');
+                            $('#PerNombre').val("");
+                            $('#PerApePa').val("");
+                            $('#PerApeMa').val("");
+                            $('#PerEdad').val("");
+                            $('#IsActive').val("null");
+                            window.location.reload(); 
+                        }
                     },
                     error: function (errormessage) {
-                        console.log("error vista");
+                        console.log("error update");
                     }
                 });
             }
 
             function Delete(objID) {
                 var ans = confirm("¿Estas seguro de querer eliminar al empleado?");
-                if (ans) {
+                if (ans == true) {
                     $.ajax({
-                        url: "/Personals/DeleteAjax/" + objID,
-                        type: "POST",
+                        url: "/Personals/Delete/" + objID,
+                        type: "GET",
                         data: { ID_personal: objID },
                         contentType: "application/json;charset=UTF-8",
                         dataType: "json",
                         success: function (result) {
-                            console.log(result);
-                            loadData();
+                            if (result.result) {
+                                ReadData();
+                                window.location.reload(); 
+                            }
                         },
                         error: function (errormessage) {
                             alert(errormessage.responseText);
@@ -270,7 +278,6 @@
             }
 
             function clearTextBox() {
-                $('#ID_personal').val("");
                 $('#PerNombre').val("");
                 $('#PerApePa').val("");
                 $('#PerApeMa').val("");

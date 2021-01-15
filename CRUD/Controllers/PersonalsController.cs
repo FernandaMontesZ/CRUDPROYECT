@@ -45,7 +45,7 @@ namespace CRUD.Controllers
            var result = emDB.Create(personal);
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
-
+        
         public ActionResult GetInfID(int? ID_personal )
 
         {
@@ -68,12 +68,24 @@ namespace CRUD.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Personal personal)
         {
-           
-           return Json(emDB.Update(personal),JsonRequestBehavior.AllowGet);
+            var result = emDB.Update(personal);
+           return Json(new { result = result},JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Delete(int ID_personal)
+        public ActionResult Delete(int? ID_personal)
         {
-            return Json(emDB.Delete(ID_personal), JsonRequestBehavior.AllowGet);
+            List<Personal> personal = new List<Personal>();
+
+            if (ID_personal == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            personal = emDB.Details((int)ID_personal);
+            if (personal == null)
+            {
+                return HttpNotFound();
+            }
+            var result = emDB.Delete((int)ID_personal);
+            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Personals/Edit/5
