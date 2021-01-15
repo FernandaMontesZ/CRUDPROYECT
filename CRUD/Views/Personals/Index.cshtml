@@ -101,11 +101,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="IsActive">IsActive</label>
-                                <div class="checkbox">
-                                    <select id="PerIsActive" name="IsActive" size="1">
-                                        <option value="null">No Set</option>
-                                        <option value="True">Activo</option>
-                                        <option value="False">No Activo</option>
+                                <div class="checkbox" id="PerIsActiveCheck">
+                                    <select name="PerIsActive" size="1">
+                                        <option id="ck1" value="null">No Set</option>
+                                        <option id="ck2" value="true">Activo</option>
+                                        <option id="ck3" value="false">No Activo</option>
                                     </select>
                                 </div>
                             </div>
@@ -195,7 +195,10 @@
             }
 
             function getID(objID) {
-                
+                var isact = false;
+                for (i = 0; i <= 2; i++) {
+
+                }
                 $.ajax({
                     url: "/Personals/GetInfID/" + objID,
                     type: "GET",
@@ -207,8 +210,15 @@
                             $('#PerApePa').val(item.ApePaterno);
                             $('#PerApeMa').val(item.ApeMaterno);
                             $('#PerEdad').val(item.Edad);
-                            $('#PerIsActive').val(item.IsActive);
+                            if (item.IsActive === true) {
+                                $("#PerIsActive2").empty().append('<option value="' + item.IsActive + '">Activo</option> <option value="false">No Activo</option>');
+                            }
+                            else {
+                                $("#PerIsActive2").empty().append('<option value="' + item.IsActive + '">No Activo</option> <option value="true">Activo</option>');
+                                //$("#PerIsActive").append('<option value="true">Activo</option>');
+                            }
                         });
+                        console.log(isact);
                         $('#myModalLabelTitle').replaceWith("EDITAR PERSONAL");
                         $('#Mymodal').modal('show');
                         $('#btn_updateModal').show();
@@ -282,7 +292,7 @@
                 $('#PerApePa').val("");
                 $('#PerApeMa').val("");
                 $('#PerEdad').val("");
-                $('#IsActive').val("null");
+                $('#IsActive').val("");
                 $('#btn_updateModal').hide();
                 $('#Btn_CreateModal').show();
             }

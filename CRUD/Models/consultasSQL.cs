@@ -12,8 +12,7 @@ namespace CRUD.Models
         public static string conBD = ConfigurationManager.ConnectionStrings["EmpleadosEntities2"].ConnectionString;
         SqlConnection con = new SqlConnection(conBD);
         SqlCommand comm = new SqlCommand();
-        Personal ps = new Personal();
-        List<Personal> lsPersonal = new List<Personal>();
+
 
         public bool Create(Personal personal)
         {
@@ -30,7 +29,7 @@ namespace CRUD.Models
             comm.Parameters.AddWithValue("@Edad", personal.Edad);
             comm.Parameters.AddWithValue("@IsActive", personal.IsActive);
             res = comm.ExecuteNonQuery();
-            if (res == -1)
+            if (res == 1)
             {
                 i = true;
             }
@@ -39,6 +38,8 @@ namespace CRUD.Models
         }
         public List<Personal> ReadAll()
         {
+            Personal ps = new Personal();
+            List<Personal> lsPersonal = new List<Personal>();
             con.Open();
             comm.Connection = con;
             comm.CommandType = System.Data.CommandType.StoredProcedure;
@@ -82,7 +83,7 @@ namespace CRUD.Models
             comm.Parameters.AddWithValue("@Edad", personal.Edad);
             comm.Parameters.AddWithValue("@IsActive", personal.IsActive);
             i = comm.ExecuteNonQuery();
-            if (i == -1)
+            if (i == 1)
             {
                 resp = true;
             }
@@ -97,10 +98,10 @@ namespace CRUD.Models
             comm.Connection = con;
             comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.CommandText = "sp_CRUD";
-            comm.Parameters.AddWithValue("@Action", "DELETE");
-            comm.Parameters.AddWithValue("@Id_personal", ID_personal);
+            comm.Parameters.AddWithValue("@ActionDel", "DELETE");
+            comm.Parameters.AddWithValue("@ID_personalDel", ID_personal);
             i = comm.ExecuteNonQuery();
-            if (i == -1)
+            if (i == 1)
             {
                 resp = true;
             }
@@ -110,6 +111,8 @@ namespace CRUD.Models
 
         public List<Personal> Details(int ID_personal)
         {
+            Personal ps = new Personal();
+            List<Personal> lsPersonal = new List<Personal>();
             con.Open();
             comm.Connection = con;
             comm.CommandType = System.Data.CommandType.StoredProcedure;
