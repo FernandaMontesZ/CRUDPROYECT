@@ -13,7 +13,6 @@ namespace CRUD.Models
         SqlConnection con = new SqlConnection(conBD);
         SqlCommand comm = new SqlCommand();
 
-
         public bool Create(Personal personal)
         {
             int res;

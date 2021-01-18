@@ -101,8 +101,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="IsActive">IsActive</label>
-                                <div class="checkbox" id="PerIsActiveCheck">
-                                    <select name="PerIsActive" size="1">
+                                <div class="isActID">
+                                    <select name="PerIsActive" id = "PerIsActiveID" size="1">
                                         <option id="ck1" value="null">No Set</option>
                                         <option id="ck2" value="true">Activo</option>
                                         <option id="ck3" value="false">No Activo</option>
@@ -124,7 +124,10 @@
         <script src="~/Scripts/jquery-3.4.1.js"></script>
         <script src="~/Scripts/bootstrap.js"></script>
         <link href="~/Content/bootstrap.css" rel="stylesheet" />
+        @*<script src="~/Scripts/sweetalert.min.js"></script>*@
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
+
             var objID;
             var ID_personal;
             $(document).ready(function () { ReadData(); });
@@ -184,7 +187,8 @@
                             $('#PerEdad').val("");
                             $('#IsActive').val("null");
                             $('#myModal').modal('hide');
-                            window.location.reload(); 
+                            swal("Hello World");
+                            window.location.reload();
                         }
 
                     },
@@ -195,7 +199,7 @@
             }
 
             function getID(objID) {
-                var isact = false;
+                var valAct = false;
                 for (i = 0; i <= 2; i++) {
 
                 }
@@ -210,15 +214,16 @@
                             $('#PerApePa').val(item.ApePaterno);
                             $('#PerApeMa').val(item.ApeMaterno);
                             $('#PerEdad').val(item.Edad);
-                            if (item.IsActive === true) {
-                                $("#PerIsActive2").empty().append('<option value="' + item.IsActive + '">Activo</option> <option value="false">No Activo</option>');
+                            if (item.IsActive == true) {
+                                valAct = true;
+                                $('.isActID option[value=true]').attr('selected', 'selected');
+                                console.log(valAct);
                             }
                             else {
-                                $("#PerIsActive2").empty().append('<option value="' + item.IsActive + '">No Activo</option> <option value="true">Activo</option>');
-                                //$("#PerIsActive").append('<option value="true">Activo</option>');
+                                $('.isActID option[value=false]').attr('selected', 'selected');
+                                console.log(valAct);
                             }
                         });
-                        console.log(isact);
                         $('#myModalLabelTitle').replaceWith("EDITAR PERSONAL");
                         $('#Mymodal').modal('show');
                         $('#btn_updateModal').show();
@@ -240,7 +245,7 @@
                     ApePaterno: $('#PerApePa').val(),
                     ApeMaterno: $('#PerApeMa').val(),
                     Edad: Number($('#PerEdad').val()),
-                    IsActive: Boolean($('#PerIsActive').val())
+                    IsActive: $('#PerIsActiveID').val()
                 };
                 $.ajax({
                     url: "/Personals/Edit",
@@ -250,13 +255,14 @@
                     success: function (resultado) {
                         if (resultado.result) {
                             ReadData();
+
                             $('#myModal').modal('hide');
                             $('#PerNombre').val("");
                             $('#PerApePa').val("");
                             $('#PerApeMa').val("");
                             $('#PerEdad').val("");
                             $('#IsActive').val("null");
-                            window.location.reload(); 
+                            window.location.reload();
                         }
                     },
                     error: function (errormessage) {
@@ -277,7 +283,7 @@
                         success: function (result) {
                             if (result.result) {
                                 ReadData();
-                                window.location.reload(); 
+                                window.location.reload();
                             }
                         },
                         error: function (errormessage) {
@@ -296,6 +302,7 @@
                 $('#btn_updateModal').hide();
                 $('#Btn_CreateModal').show();
             }
+
         </script>
 
     </body>

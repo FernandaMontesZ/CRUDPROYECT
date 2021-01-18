@@ -152,6 +152,7 @@
     <Compile Include="Models\Personal.cs">
       <DependentUpon>ModelEmpleados.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Personal_ViewModel\NPropPersonal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +195,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Empleados.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
