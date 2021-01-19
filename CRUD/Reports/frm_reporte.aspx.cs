@@ -28,21 +28,46 @@ namespace CRUD.Reports
                 switch (tipo)
                 {
                     case 1:
-                        Reporte();
+                        Reporte1();
                         break;
                 }
             }
         }
 
-        private void Reporte()
+        private void Reporte1()
         {
-
+            string NameFile = "Empleados_lista";
+            int n = 1;
+            string filePath = @"C:/Users/mfhernandezl/Downloads/" + NameFile + ".pdf";
             ReportDocument crystalReport = new ReportDocument();
             crystalReport.Load(Server.MapPath("/Reports/PersonInfo.rpt"));
             bdPersonal dsPersona = ReadAll();
             crystalReport.SetDataSource(dsPersona);
             CrystalReportViewer1.ReportSource = crystalReport;
             CrystalReportViewer1.Visible = true;
+            CrystalReportViewer1.RefreshReport();
+            if (!File.Exists(filePath))
+            {
+                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, filePath);
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+                Response.ContentType = "application/pdf";
+                Response.WriteFile(filePath);
+            }
+            else
+            {
+                NameFile += "(" + n++ + ")";
+                filePath = @"C:/Users/mfhernandezl/Downloads/" + NameFile + ".pdf";
+                crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, filePath);
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+                Response.ContentType = "application/pdf";
+                Response.WriteFile(filePath);
+                
+            }
+
         }
 
         public bdPersonal ReadAll()

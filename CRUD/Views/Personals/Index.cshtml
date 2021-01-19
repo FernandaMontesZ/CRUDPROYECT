@@ -21,7 +21,8 @@
     <body>
         <div class="container">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Crear personal</button>
-            @Html.ActionLink("Reporte","Reporte", "Personals", null, new { @Class = "btn btn-primary", target = "_blank" })
+            @Html.ActionLink("Reporte","Reporte", "Personals", null, new { @Class = "btn btn-primary", target = "_blank" }) <br /> <br /> <br />
+
             <table class="table table-bordered table-hover">
                 <thead>
 
@@ -125,8 +126,7 @@
         <script src="~/Scripts/jquery-3.4.1.js"></script>
         <script src="~/Scripts/bootstrap.js"></script>
         <link href="~/Content/bootstrap.css" rel="stylesheet" />
-        @*<script src="~/Scripts/sweetalert.min.js"></script>*@
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        @*<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>*@
         <script>
 
             var objID;
