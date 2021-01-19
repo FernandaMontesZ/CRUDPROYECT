@@ -166,5 +166,10 @@ namespace CRUD.Controllers
         //    }
         //    return View(personal);
         //}
+
+        public ActionResult Reporte ()
+        {
+            return Redirect("~/Reports/frm_reporte.aspx?tipo=1");
+        }
     }
 }
