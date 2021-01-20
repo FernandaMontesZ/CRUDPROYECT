@@ -330,7 +330,6 @@ C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\obj\
 C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\obj\Debug\CRUD.csproj.CopyComplete
 C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\obj\Debug\CRUD.dll
 C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\obj\Debug\CRUD.pdb
-C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\obj\Debug\CRUD.csprojAssemblyReference.cache
 C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\bin\CrystalDecisions.CrystalReports.Engine.dll
 C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\bin\CrystalDecisions.ReportSource.dll
 C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\bin\CrystalDecisions.Shared.dll
@@ -348,3 +347,4 @@ C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\bin\
 C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
 C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\bin\stdole.dll
 C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\bin\CrystalDecisions.Web.dll
+C:\Users\mfhernandezl\Documents\GitRepos\CRUD_Proyect\CRUDPROYECT\CRUD\CRUD\obj\Debug\CRUD.csprojAssemblyReference.cache

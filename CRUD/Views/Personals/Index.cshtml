@@ -19,9 +19,10 @@
         <title>Administracion de personal</title>
     </head>
     <body>
+        @*Encabezado clase*@
         <div class="container">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Crear personal</button>
-            @Html.ActionLink("Reporte","Reporte", "Personals", null, new { @Class = "btn btn-primary", target = "_blank" }) <br /> <br /> <br />
+            <button type="button" class="btn btn-primary" onclick="CreateData();">Crear personal</button>
+            @Html.ActionLink("Reporte", "Reporte", "Personals", null, new { @Class = "btn btn-primary", target = "_blank" }) <br /> <br /> <br />
 
             <table class="table table-bordered table-hover">
                 <thead>
@@ -49,34 +50,34 @@
                 </thead>
                 <tbody class="tbody">
                     @*@foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => item.Nombre, new { id = "PerNombre" })
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.ApePaterno, new { id = "PerApePa" })
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.ApeMaterno, new { id = "PerApeMa" })
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.Edad, new { id = "PerEdad" })
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.IsActive, new { id = "PerIsActive" })
-                        </td>
-                        <td>
-                            @Html.ActionLink("Editar", "GetInfID", new { id = item.ID_personal }) |
-                            @Html.ActionLink("Eliminar", "Delete", new { id = item.ID_personal })
-                        </td>
-                    </tr>
-                }*@
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => item.Nombre, new { id = "PerNombre" })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.ApePaterno, new { id = "PerApePa" })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.ApeMaterno, new { id = "PerApeMa" })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Edad, new { id = "PerEdad" })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.IsActive, new { id = "PerIsActive" })
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "GetInfID", new { id = item.ID_personal }) |
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.ID_personal })
+                            </td>
+                        </tr>
+                    }*@
                 </tbody>
             </table>
         </div>
         @*vista modal crear / editar*@
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        @*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -104,7 +105,7 @@
                             <div class="form-group">
                                 <label for="IsActive">IsActive</label>
                                 <div class="isActID">
-                                    <select name="PerIsActive" id = "PerIsActiveID" size="1">
+                                    <select name="PerIsActive" id="PerIsActiveID" size="1">
                                         <option id="ck1" value="null">No Set</option>
                                         <option id="ck2" value="true">Activo</option>
                                         <option id="ck3" value="false">No Activo</option>
@@ -120,17 +121,21 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
 
         <script src="~/Scripts/jquery-3.4.1.min.js"></script>
         <script src="~/Scripts/jquery-3.4.1.js"></script>
         <script src="~/Scripts/bootstrap.js"></script>
         <link href="~/Content/bootstrap.css" rel="stylesheet" />
-        @*<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>*@
+        @*cdn sweetalert2*@
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        @*local Js File sweetalert2*@
+        @*<script src="~/Scripts/sweetalert2.js"></script>*@
+        <link rel="stylesheet" href="~/Content/sweetalert2.css" />
         <script>
-
             var objID;
             var ID_personal;
+            var isAc; 
             $(document).ready(function () { ReadData(); });
 
             function addRequestVerificationToken(data) {
@@ -152,8 +157,8 @@
                             html += '<td>' + item.ApeMaterno + '</td>';
                             html += '<td>' + item.Edad + '</td>';
                             html += '<td>' + item.IsActive + '</td>';
-                            html += '<td> <button value="Editar" id="btn_update" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="return getID(' + objID + ');">Editar</button> </td>';
-                            html += '<td> <button value="Eliminar" id="btnDelete" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="return Delete(' + objID + ');">Eliminar</button></td>';
+                            html += '<td> <button value="Editar" id="btn_update" type="button" class="btn btn-default" onclick="return getID(' + objID + ');">Editar</button> </td>';
+                            html += '<td> <button value="Eliminar" id="btnDelete" type="button" class="btn btn-default" onclick="return Delete(' + objID + ');">Eliminar</button></td>';
                             html += '</tr>';
                         });
                         $('.tbody').html(html);
@@ -164,46 +169,65 @@
                 });
             }
 
-            function CreateData() {
-                var Personal = {
-                    Nombre: $("#PerNombre").val(),
-                    ApePaterno: $('#PerApePa').val(),
-                    ApeMaterno: $('#PerApeMa').val(),
-                    Edad: Number($('#PerEdad').val()),
-                    IsActive: Boolean($('#PerIsActive').val())
-                };
-                // console.log(Personal)
-                $.ajax({
-                    type: "POST",
-                    url: "/Personals/Create",
-                    dataType: "json",
-                    data: addRequestVerificationToken({ personal: Personal }),
-                    success: function (resultado) {
-                        //console.log("ok");
-                        if (resultado.result) {
-                            ReadData();
-                            $('#PerNombre').val("");
-                            $('#PerApePa').val("");
-                            $('#PerApeMa').val("");
-                            $('#PerEdad').val("");
-                            $('#IsActive').val("null");
-                            $('#myModal').modal('hide');
-                            swal("Hello World");
-                            window.location.reload();
+            async function CreateData() {
+                //obtener datos 
+                const { value: Personal } = await Swal.fire({
+                    title: 'Crear Personal',
+                    html:
+                        '<label>Nombre</label><input id="swal-input1" class= "swal2-input" > ' +
+                        '<label>Apellido Paterno</label> <input id="swal-input2" class="swal2-input">' +
+                        '<label>Apellido Materno</label> <input id="swal-input3" class="swal2-input">' +
+                        '<label>Edad</label> <input id="swal-input4" class="swal2-input">' +
+                        '<label>Is Active</label></br> <select  id="swal-input5"> <option value="null">No Set</option> <option value="true">Activo</option> <option value="false">No Activo</option></select>',
+                    //focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: 'Crear',
+                    showLoaderOnConfirm: true,
+                    preConfirm: () => {
+                        var Personal = {
+                            Nombre: document.getElementById('swal-input1').value,
+                            ApePaterno: document.getElementById('swal-input2').value,
+                            ApeMaterno: document.getElementById('swal-input3').value,
+                            Edad: Number(document.getElementById('swal-input4').value),
+                            IsActive: Boolean(document.getElementById('swal-input5').value)
                         }
-
-                    },
-                    error: function () {
-                        console.log("error");
+                        return Personal;
                     }
                 });
+                //enviar datos peticion por ajax
+                if (Personal) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Personals/Create",
+                        dataType: "json",
+                        data: addRequestVerificationToken({ personal: Personal }),
+                        success: function (resultado) {
+                            console.log("ok");
+                            if (resultado.result) {
+                                Swal.fire({
+                                    title: 'Personal guardado correctamente!',
+                                    icon: 'success',
+                                    showConfirmButton: false
+                                });
+                                ReadData();
+                            }
+
+                        },
+                        error: function (resultado) {
+                            Swal.fire({
+                                title: 'No se guardaron los datos correctamente',
+                                icon: 'error',
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                    console.log(Personal);
+                }
             }
 
             function getID(objID) {
                 var valAct = false;
-                for (i = 0; i <= 2; i++) {
-
-                }
+                var html = '';
                 $.ajax({
                     url: "/Personals/GetInfID/" + objID,
                     type: "GET",
@@ -211,24 +235,56 @@
                     success: function (data) {
                         $.each(data, function (key, item) {
                             ID_personal = item.ID_personal;
-                            $('#PerNombre').val(item.Nombre);
-                            $('#PerApePa').val(item.ApePaterno);
-                            $('#PerApeMa').val(item.ApeMaterno);
-                            $('#PerEdad').val(item.Edad);
+                            html += '<label>Nombre</label><input id="swal-input1" class= "swal2-input" value="' + item.Nombre + '" >';
+                            html += '<label>Apellido Paterno</label> <input id="swal-input2" class="swal2-input" value="' + item.ApePaterno + '">';
+                            html += '<label>Apellido Materno</label> <input id="swal-input3" class="swal2-input" value="' + item.ApeMaterno + '">';
+                            html += '<label>Edad</label> <input id="swal-input4" class="swal2-input" value="' + item.Edad + '">';
                             if (item.IsActive == true) {
-                                valAct = true;
-                                $('.isActID option[value=true]').attr('selected', 'selected');
-                                console.log(valAct);
+                                isAc = item.IsActive;
+                                html += '<label>Is Active</label></br > <select id="swal-input5"> <option value="null">No Set</option> <option selected value="true">Activo</option> <option value="false">No Activo</option></select>';
                             }
                             else {
-                                $('.isActID option[value=false]').attr('selected', 'selected');
-                                console.log(valAct);
+                                isAc = item.IsActive;
+                                html += '<label>Is Active</label></br > <select id="swal-input5"> <option value="null">No Set</option> <option value="true">Activo</option> <option selected value="false">No Activo</option></select>';
                             }
                         });
-                        $('#myModalLabelTitle').replaceWith("EDITAR PERSONAL");
-                        $('#Mymodal').modal('show');
-                        $('#btn_updateModal').show();
-                        $('#Btn_CreateModal').hide();
+                        Swal.fire({
+                            title: 'Editar Personal',
+                            html: html,
+                            showCancelButton: true,
+                            confirmButtonText: 'Editar',
+                            showLoaderOnConfirm: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var Personal = {
+                                    ID_personal: ID_personal,
+                                    Nombre: document.getElementById('swal-input1').value,
+                                    ApePaterno: document.getElementById('swal-input2').value,
+                                    ApeMaterno: document.getElementById('swal-input3').value,
+                                    Edad: Number(document.getElementById('swal-input4').value),
+                                    IsActive: Boolean(document.getElementById('swal-input5').value)
+                                };
+                                console.log(Personal);
+                                $.ajax({
+                                    url: "/Personals/Edit",
+                                    data: addRequestVerificationToken({ personal: Personal }),
+                                    type: "POST",
+                                    dataType: "json",
+                                    success: function (resultado) {
+                                        if (resultado.result) {
+                                            Swal.fire('Se edito correctamente!', '', 'success')
+                                            ReadData();
+                                        }
+                                    },
+                                    error: function (resultado) {
+                                        Swal.fire('No se editó!!', '', 'info')
+                                    }
+                                });
+                             
+                            } else if (result.isDenied) {
+                                Swal.fire('No se editó!!', '', 'info')
+                            }
+                        })
                     },
 
                     error: function (errormessage) {
@@ -236,73 +292,99 @@
                     }
 
                 });
-                return false;
+
             }
 
-            function Update() {
-                var Personal = {
-                    ID_personal: ID_personal,
-                    Nombre: $("#PerNombre").val(),
-                    ApePaterno: $('#PerApePa').val(),
-                    ApeMaterno: $('#PerApeMa').val(),
-                    Edad: Number($('#PerEdad').val()),
-                    IsActive: $('#PerIsActiveID').val()
-                };
-                $.ajax({
-                    url: "/Personals/Edit",
-                    data: addRequestVerificationToken({ personal: Personal }),
-                    type: "POST",
-                    dataType: "json",
-                    success: function (resultado) {
-                        if (resultado.result) {
-                            ReadData();
+            //function Update() {
+            //    var Personal = {
+            //        ID_personal: ID_personal,
+            //        Nombre: $("#PerNombre").val(),
+            //        ApePaterno: $('#PerApePa').val(),
+            //        ApeMaterno: $('#PerApeMa').val(),
+            //        Edad: Number($('#PerEdad').val()),
+            //        IsActive: $('#PerIsActiveID').val()
+            //    };
+            //    $.ajax({
+            //        url: "/Personals/Edit",
+            //        data: addRequestVerificationToken({ personal: Personal }),
+            //        type: "POST",
+            //        dataType: "json",
+            //        success: function (resultado) {
+            //            if (resultado.result) {
+            //                ReadData();
 
-                            $('#myModal').modal('hide');
-                            $('#PerNombre').val("");
-                            $('#PerApePa').val("");
-                            $('#PerApeMa').val("");
-                            $('#PerEdad').val("");
-                            $('#IsActive').val("null");
-                            window.location.reload();
-                        }
-                    },
-                    error: function (errormessage) {
-                        console.log("error update");
-                    }
-                });
-            }
+            //                $('#myModal').modal('hide');
+            //                $('#PerNombre').val("");
+            //                $('#PerApePa').val("");
+            //                $('#PerApeMa').val("");
+            //                $('#PerEdad').val("");
+            //                $('#IsActive').val("null");
+            //                window.location.reload();
+            //            }
+            //        },
+            //        error: function (errormessage) {
+            //            console.log("error update");
+            //        }
+            //    });
+            //}
 
             function Delete(objID) {
-                var ans = confirm("¿Estas seguro de querer eliminar al empleado?");
-                if (ans == true) {
-                    $.ajax({
-                        url: "/Personals/Delete/" + objID,
-                        type: "GET",
-                        data: { ID_personal: objID },
-                        contentType: "application/json;charset=UTF-8",
-                        dataType: "json",
-                        success: function (result) {
-                            if (result.result) {
-                                ReadData();
-                                window.location.reload();
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                });
+
+                swalWithBootstrapButtons.fire({
+                    
+                    title: '¿Estas seguro de querer eliminar al empleado?',
+                    text: 'Nombre',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Eliminar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/Personals/Delete/" + objID,
+                            type: "GET",
+                            data: { ID_personal: objID },
+                            contentType: "application/json;charset=UTF-8",
+                            dataType: "json",
+                            success: function (result) {
+                                if (result.result) {
+                                    swalWithBootstrapButtons.fire(
+                                        '¡Eliminado!',
+                                        'Se ha eliminado el persoal correctamente.',
+                                        'success')
+                                    ReadData();
+                                }
                             }
-                        },
-                        error: function (errormessage) {
-                            alert(errormessage.responseText);
-                        }
-                    });
-                }
+                        });
+                        
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        swalWithBootstrapButtons.fire(
+                            '¡Cancelado!',
+                            'No se ha realizado ninguna acción.',
+                            'error'
+                        )
+                    }
+                });
+
             }
 
-            function clearTextBox() {
-                $('#PerNombre').val("");
-                $('#PerApePa').val("");
-                $('#PerApeMa').val("");
-                $('#PerEdad').val("");
-                $('#IsActive').val("");
-                $('#btn_updateModal').hide();
-                $('#Btn_CreateModal').show();
-            }
+            //function clearTextBox() {
+            //    $('#PerNombre').val("");
+            //    $('#PerApePa').val("");
+            //    $('#PerApeMa').val("");
+            //    $('#PerEdad').val("");
+            //    $('#IsActive').val("");
+            //    $('#btn_updateModal').hide();
+            //    $('#Btn_CreateModal').show();
+            //}
 
         </script>
 
