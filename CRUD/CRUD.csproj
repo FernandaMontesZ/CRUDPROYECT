@@ -137,6 +137,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>bdPersonal.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\DEpersonalController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonalsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -158,6 +159,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelEmpleados.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ScriptHelper.cs" />
     <Compile Include="Models\Personal.cs">
       <DependentUpon>ModelEmpleados.tt</DependentUpon>
     </Compile>
@@ -218,6 +220,8 @@
       <DependentUpon>bdPersonal.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\dataGrid.js" />
+    <Content Include="Scripts\dx.all.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -250,6 +254,11 @@
     <Content Include="Views\Personals\Details.cshtml" />
     <Content Include="Views\Personals\Index.cshtml" />
     <Content Include="Views\Personals\Edit.cshtml" />
+    <Content Include="Views\DEpersonal\Create.cshtml" />
+    <Content Include="Views\DEpersonal\Delete.cshtml" />
+    <Content Include="Views\DEpersonal\Details.cshtml" />
+    <Content Include="Views\DEpersonal\Edit.cshtml" />
+    <Content Include="Views\DEpersonal\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

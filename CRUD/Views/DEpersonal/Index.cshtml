@@ -1,0 +1,227 @@
+﻿@model IEnumerable<CRUD.Models.Personal>
+
+
+@{
+    ViewBag.Title = "Información Personal DevEx";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<!DOCTYPE html>
+@using (Html.BeginForm("Index", "DEPersonal", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <html>
+    <head>
+
+        <meta name="viewport" content="width=device-width" />
+        <title>Index DevExp</title>
+
+    </head>
+    <body>
+        <table class="table">
+            @*<tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ApePaterno)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ApeMaterno)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Edad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsActive)
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApePaterno)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApeMaterno)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Edad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsActive)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID_personal }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.ID_personal }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID_personal })
+                        </td>
+                    </tr>
+                }*@
+        </table>
+
+        <div>
+            @*DIV GRID BOTONES*@
+            <div class="demo-container">
+            <div id="grid"></div>
+            <div id="action-add"></div>
+            <div id="action-remove"></div>
+            <div id="action-edit"></div>
+            </div>
+
+        </div>
+
+        <script>
+            $(function () {
+                $(function () {
+                    function addRequestVerificationToken(data) {
+                        data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+                        return data;
+                    };
+                    var selectedRowIndex = -1;
+                    var dataSource = new DevExpress.data.DataSource({
+                        key: "ID_personal",
+                        load: function () {
+                            //var d = $.Deferred();
+                            return $.ajax({
+                                url: '/DEpersonal/ReadListaPersonal'
+                            }).done(function (result) {
+                                //d.resolve(result);
+                            }).fail(function (result) {
+                                throw "Data loading error";
+                            });
+                        },
+                        insert: function (values) {
+                            return $.ajax({
+                                type: "POST",
+                                url: "/DEpersonal/Create",
+                                data: addRequestVerificationToken({ personal: values }),
+                            })
+                        },
+                        update: function (key, values) {
+                            return $.ajax({
+                                type: "POST",
+                                url: "/DEpersonal/Edit",
+                                data: JSON.stringify({ ID_personal: key, personal: values }),
+                            })
+                        },
+                        remove: function (key) {
+                            return $.ajax({
+                                url: "/DEpersonal/Delete/" + encodeURIComponent(key),
+                                data: ({ ID: key })
+                            })
+                        }
+                    });
+
+                    var IsActiveDATA = [{
+                        "ID": true,
+                        "Name": "Activo"
+                    }, {
+                        "ID": false,
+                        "Name": "No Activo"
+                        }];
+
+                    $("#action-add").dxSpeedDialAction({
+                        label: "Add row",
+                        icon: "add",
+                        index: 1,
+                        onClick: function () {
+                            grid.addRow();
+                            grid.deselectAll();
+                        }
+                    }).dxSpeedDialAction("instance");
+
+                    var deleteSDA = $("#action-remove").dxSpeedDialAction({
+                        icon: "trash",
+                        label: "Delete row",
+                        index: 2,
+                        visible: false,
+                        onClick: function () {
+                            grid.deleteRow(selectedRowIndex);
+                            grid.deselectAll();
+                        }
+                    }).dxSpeedDialAction("instance");
+
+                    var editSDA = $("#action-edit").dxSpeedDialAction({
+                        label: "Edit row",
+                        icon: "edit",
+                        index: 3,
+                        visible: false,
+                        onClick: function () {
+                            grid.editRow(selectedRowIndex);
+                            grid.deselectAll();
+                        }
+                    }).dxSpeedDialAction("instance");
+
+                    var grid = $("#grid").dxDataGrid({
+                        dataSource: dataSource,
+                        showBorders: true,
+                        selection: {
+                            mode: "single"
+                        },
+                        paging: {
+                            enabled: false
+                        },
+                        editing: {
+                            mode: "popup",
+                            texts: {
+                                confirmDeleteMessage: ""
+                            }
+                        },
+                        onSelectionChanged: function (e) {
+                            selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+
+                            deleteSDA.option("visible", selectedRowIndex !== -1);
+                            editSDA.option("visible", selectedRowIndex !== -1);
+                        },
+                        columns: [
+                            {
+                                dataField: "Nombre",
+                                dataType: "string",
+                                alignment: "center",
+                            },
+                            {
+                                caption: "Apellido Paterno",
+                                dataField: "ApePaterno",
+                                dataType: "string",
+                                alignment: "center",
+                            },
+                            {
+                                caption: "Apellido Materno",
+                                dataField: "ApeMaterno",
+                                dataType: "string",
+                                alignment: "center",
+                            }
+                            , {
+                                dataField: "Edad",
+                                dataType: "number",
+                                alignment: "center",
+                            },
+                            {
+                                dataField: "IsActive",
+                                caption: "Is Active",
+                                width: 125,
+                                lookup: {
+                                    dataSource: IsActiveDATA,
+                                    displayExpr: "Name",
+                                    valueExpr: "ID"
+                                }
+                            }]
+                    }).dxDataGrid("instance");
+
+
+                });
+            });
+
+        </script>
+
+    </body>
+</html>
+}

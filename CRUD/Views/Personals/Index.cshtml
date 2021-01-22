@@ -68,7 +68,7 @@
                                 @Html.DisplayFor(model => item.IsActive, new { id = "PerIsActive" })
                             </td>
                             <td>
-                                @Html.ActionLink("Editar", "GetInfID", new { id = item.ID_personal }) |
+                                @Html.ActionLink("Editar", "getID", new { onclick ="return getID(" + item.ID_personal + ");" }) |
                                 @Html.ActionLink("Eliminar", "Delete", new { id = item.ID_personal })
                             </td>
                         </tr>
@@ -136,6 +136,7 @@
             var objID;
             var ID_personal;
             var isAc; 
+            var data;
             $(document).ready(function () { ReadData(); });
 
             function addRequestVerificationToken(data) {
@@ -149,6 +150,7 @@
                     url: '/Personals/ReadListaPersonal',
                     success: function (result) {
                         var html = '';
+                        data = result;
                         $.each(result, function (key, item) {
                             objID = item.ID_personal;
                             html += '<tr>';
@@ -156,7 +158,12 @@
                             html += '<td>' + item.ApePaterno + '</td>';
                             html += '<td>' + item.ApeMaterno + '</td>';
                             html += '<td>' + item.Edad + '</td>';
-                            html += '<td>' + item.IsActive + '</td>';
+                            if (item.IsActive == true) {
+                                html += '<td> Activo </td>';
+                            }
+                            else {
+                                html += '<td> No Activo </td>';
+                            }
                             html += '<td> <button value="Editar" id="btn_update" type="button" class="btn btn-default" onclick="return getID(' + objID + ');">Editar</button> </td>';
                             html += '<td> <button value="Eliminar" id="btnDelete" type="button" class="btn btn-default" onclick="return Delete(' + objID + ');">Eliminar</button></td>';
                             html += '</tr>';
@@ -168,7 +175,6 @@
                     }
                 });
             }
-
             async function CreateData() {
                 //obtener datos 
                 const { value: Personal } = await Swal.fire({
@@ -179,7 +185,7 @@
                         '<label>Apellido Materno</label> <input id="swal-input3" class="swal2-input">' +
                         '<label>Edad</label> <input id="swal-input4" class="swal2-input">' +
                         '<label>Is Active</label></br> <select  id="swal-input5"> <option value="null">No Set</option> <option value="true">Activo</option> <option value="false">No Activo</option></select>',
-                    //focusConfirm: false,
+                    focusConfirm: false,
                     showCancelButton: true,
                     confirmButtonText: 'Crear',
                     showLoaderOnConfirm: true,
@@ -248,6 +254,7 @@
                                 html += '<label>Is Active</label></br > <select id="swal-input5"> <option value="null">No Set</option> <option value="true">Activo</option> <option selected value="false">No Activo</option></select>';
                             }
                         });
+                        console.log(data);
                         Swal.fire({
                             title: 'Editar Personal',
                             html: html,
@@ -262,7 +269,7 @@
                                     ApePaterno: document.getElementById('swal-input2').value,
                                     ApeMaterno: document.getElementById('swal-input3').value,
                                     Edad: Number(document.getElementById('swal-input4').value),
-                                    IsActive: Boolean(document.getElementById('swal-input5').value)
+                                    IsActive: document.getElementById('swal-input5').value
                                 };
                                 console.log(Personal);
                                 $.ajax({
@@ -340,7 +347,7 @@
                 swalWithBootstrapButtons.fire({
                     
                     title: '¿Estas seguro de querer eliminar al empleado?',
-                    text: 'Nombre',
+                    //text: 'Nombre',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Eliminar',
