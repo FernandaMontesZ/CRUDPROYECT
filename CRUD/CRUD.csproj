@@ -159,7 +159,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelEmpleados.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\ScriptHelper.cs" />
     <Compile Include="Models\Personal.cs">
       <DependentUpon>ModelEmpleados.tt</DependentUpon>
     </Compile>

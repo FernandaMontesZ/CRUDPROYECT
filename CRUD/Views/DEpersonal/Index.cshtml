@@ -69,11 +69,14 @@
 
         <div>
             @*DIV GRID BOTONES*@
+            <div class="buttons-column">
+                    <div id="default-contained"></div>
+            </div>
             <div class="demo-container">
-            <div id="grid"></div>
-            <div id="action-add"></div>
-            <div id="action-remove"></div>
-            <div id="action-edit"></div>
+                <div id="grid"></div>
+                <div id="action-add"></div>
+                <div id="action-remove"></div>
+                <div id="action-edit"></div>
             </div>
 
         </div>
@@ -105,11 +108,15 @@
                                 data: addRequestVerificationToken({ personal: values }),
                             })
                         },
-                        update: function (key, values) {
+                        update: function (key,values) {
+                            //console.log(key);
+                            console.log(values);
+                            var datos = { ID_personal: key, personal: values };
+                            console.log(datos);
                             return $.ajax({
                                 type: "POST",
                                 url: "/DEpersonal/Edit",
-                                data: JSON.stringify({ ID_personal: key, personal: values }),
+                                data: addRequestVerificationToken(datos),
                             })
                         },
                         remove: function (key) {
@@ -119,7 +126,7 @@
                             })
                         }
                     });
-
+                       
                     var IsActiveDATA = [{
                         "ID": true,
                         "Name": "Activo"
@@ -162,7 +169,26 @@
 
                     var grid = $("#grid").dxDataGrid({
                         dataSource: dataSource,
+                        repaintChangesOnly: true,
+                        showColumnLines: false,
+                        showRowLines: true,
+                        rowAlternationEnabled: true,
+                        allowColumnReordering: true,
+                        allowColumnResizing: true,
+                        columnAutoWidth: true,
                         showBorders: true,
+                        filterRow: {
+                            visible: true,
+                            applyFilter: "auto"
+                        },
+                        searchPanel: {
+                            visible: true,
+                            width: 240,
+                            placeholder: "Search..."
+                        },
+                        headerFilter: {
+                            visible: true
+                        },
                         selection: {
                             mode: "single"
                         },
@@ -175,6 +201,8 @@
                                 confirmDeleteMessage: ""
                             }
                         },
+                        scrolling: { mode: "virtual " },
+                        focusedRowEnabled: true,
                         onSelectionChanged: function (e) {
                             selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
 
@@ -216,7 +244,18 @@
                             }]
                     }).dxDataGrid("instance");
 
-
+                    $("#default-contained").dxButton({
+                        stylingMode: "contained",
+                        text: "EXPORT DATA",
+                        type: "default",
+                        width: 250,
+                        onClick: function () {
+                            $.ajax({
+                                url: '/DEpersonal/Reporte'
+                            })
+                            DevExpress.ui.notify("El boton fue presionado");
+                        },
+                    });
                 });
             });
 

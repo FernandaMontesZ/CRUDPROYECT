@@ -21,6 +21,7 @@ namespace CRUD.Models
             comm.Connection = con;
             comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.CommandText = "sp_CRUD";
+            comm.Parameters.Clear();
             comm.Parameters.AddWithValue("@Action", "INSERT");
             comm.Parameters.AddWithValue("@Nombre", personal.Nombre);
             comm.Parameters.AddWithValue("@ApePaterno", personal.ApePaterno);
@@ -74,6 +75,7 @@ namespace CRUD.Models
             comm.Connection = con;
             comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.CommandText = "sp_CRUD";
+            comm.Parameters.Clear();
             comm.Parameters.AddWithValue("@Action", "UPDATE");
             comm.Parameters.AddWithValue("@ID_personal", personal.ID_personal);
             comm.Parameters.AddWithValue("@Nombre", personal.Nombre);
@@ -97,8 +99,9 @@ namespace CRUD.Models
             comm.Connection = con;
             comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.CommandText = "sp_CRUD";
-            comm.Parameters.AddWithValue("@ActionDel", "DELETE");
-            comm.Parameters.AddWithValue("@ID_personalDel", ID_personal);
+            comm.Parameters.Clear();
+            comm.Parameters.AddWithValue("@Action", "DELETE");
+            comm.Parameters.AddWithValue("@ID_personal", ID_personal);
             i = comm.ExecuteNonQuery();
             if (i == 1)
             {
@@ -116,6 +119,7 @@ namespace CRUD.Models
             comm.Connection = con;
             comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.CommandText = "sp_CRUD";
+            comm.Parameters.Clear();
             comm.Parameters.AddWithValue("@Action", "DETAILS");
             comm.Parameters.AddWithValue("@Id_personal", ID_personal);
             SqlDataReader reader = comm.ExecuteReader();
