@@ -13,12 +13,14 @@ namespace CRUD
     {
         protected void Application_Start()
         {
+            DevExpress.XtraReports.Web.WebDocumentViewer.Native.WebDocumentViewerBootstrapper.SessionState = System.Web.SessionState.SessionStateBehavior.Disabled;
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AntiForgeryConfig.SuppressIdentityHeuristicChecks = true;
 
+            DevExpress.Web.Mvc.MVCxWebDocumentViewer.StaticInitialize();
         }
     }
 }

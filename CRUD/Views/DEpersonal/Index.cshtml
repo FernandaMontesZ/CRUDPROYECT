@@ -12,6 +12,12 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
+    @Html.DevExpress().WebDocumentViewer(settings =>
+    {
+        settings.Name = "WebDocumentViewer1";
+        settings.MobileMode = true;
+    }).Bind(new DevExpress.XtraReports.Web.CachedReportSourceWeb(new CRUD.Views.DEpersonal.XtraReportPersonal())).GetHtml()
+
 
     <html>
     <head>
@@ -70,7 +76,7 @@
         <div>
             @*DIV GRID BOTONES*@
             <div class="buttons-column">
-                    <div id="default-contained"></div>
+                <div id="default-contained"></div>
             </div>
             <div class="demo-container">
                 <div id="grid"></div>
@@ -108,7 +114,7 @@
                                 data: addRequestVerificationToken({ personal: values }),
                             })
                         },
-                        update: function (key,values) {
+                        update: function (key, values) {
                             //console.log(key);
                             console.log(values);
                             var datos = { ID_personal: key, personal: values };
@@ -126,14 +132,14 @@
                             })
                         }
                     });
-                       
+
                     var IsActiveDATA = [{
                         "ID": true,
                         "Name": "Activo"
                     }, {
                         "ID": false,
                         "Name": "No Activo"
-                        }];
+                    }];
 
                     $("#action-add").dxSpeedDialAction({
                         label: "Add row",
